@@ -2,11 +2,11 @@
 
 import pygame as p
 import random
-import time 
+import time
 
 # Constants for the pygame
 # For the game screen size (630 so it can be devided by 5, 7 and 9 squares)
-WIDTH = HEIGHT = 630 # For the game screen size
+WIDTH = HEIGHT = 630  # For the game screen size
 BORDER = 30  # For spacing left and right
 REAL_HEIGHT = HEIGHT + BORDER * 4 + 150  # For game real screen size (900)
 REAL_WIDTH = WIDTH + BORDER * 2  # For game real screen size (690)
@@ -46,7 +46,7 @@ def generateGame(screen, board, levels_passed):
             counter += 1
             addElement(screen, board, "CR")
     elif DIMENTIONS > 3:
-        while counter < 3:
+        while counter < DIMENTIONS // 2:
             counter += 1
             addElement(screen, board, "CR")
     elif levels_passed > 0:
@@ -72,8 +72,8 @@ def drawPieces(screen, board, bunny_pos):
     for row in range(DIMENTIONS):  # top -> bottom
         for col in range(DIMENTIONS):  # left -> right
             piece = board[row][col]
-            if piece != "--": # if it's not empty slot
-                if piece == "CR": # if it's a carrot - make it smaller
+            if piece != "--":  # if it's not empty slot
+                if piece == "CR":  # if it's a carrot - make it smaller
                     spacing_for_piece = SPACING * 3
                 else:
                     spacing_for_piece = SPACING * 2
@@ -116,9 +116,12 @@ def emptyBoard():
 
 # Rerender the top part of the screen where is "Score: ..."
 def renderText(screen, font, score_this, text_surface, spacing, levels_passed, player_name):
-    screen.fill((110, 170, 75), (0, spacing, REAL_WIDTH, text_surface.get_height()))
-    text_surface = font.render(player_name + " | Level " + str(levels_passed) + "  |  Score: " + str(score_this), True, (255, 255, 255))
-    screen.blit(text_surface, ((REAL_WIDTH - text_surface.get_width()) // 2, BORDER))                        
+    screen.fill((110, 170, 75), (0, spacing,
+                REAL_WIDTH, text_surface.get_height()))
+    text_surface = font.render(player_name + " | Level " + str(
+        levels_passed) + "  |  Score: " + str(score_this), True, (255, 255, 255))
+    screen.blit(
+        text_surface, ((REAL_WIDTH - text_surface.get_width()) // 2, BORDER))
 
 # Show input-name-screen before game starts
 def welcome_screen(screen):
@@ -149,13 +152,16 @@ def welcome_screen(screen):
         # Render the "Welcome!" message and input
         font = p.font.Font(None, WIDTH // 6)
         welcome_text = font.render("Welcome!", True, (255, 255, 255))
-        welcome_rect = welcome_text.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 3))
+        welcome_rect = welcome_text.get_rect(
+            center=(REAL_WIDTH // 2, REAL_HEIGHT // 3))
         screen.blit(welcome_text, welcome_rect)
 
         # Render the small text above the input field
         small_font = p.font.Font(None, BORDER)
-        small_text = small_font.render("Input your name and press enter:", True, (255, 255, 255))
-        small_rect = small_text.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 2 - 30))
+        small_text = small_font.render(
+            "Input your name and press enter:", True, (255, 255, 255))
+        small_rect = small_text.get_rect(
+            center=(REAL_WIDTH // 2, REAL_HEIGHT // 2 - 30))
         screen.blit(small_text, small_rect)
 
         p.draw.rect(screen, input_color, input_rect, 2)
@@ -174,7 +180,8 @@ def endGame(screen, cause_of_death):
     # Create black-to-green transition
     frame_count = 0
     while frame_count < 2000:
-        current_color = p.Color.lerp(p.Color(0, 0, 0), p.Color(60, 90, 40), frame_count / 2000)
+        current_color = p.Color.lerp(
+            p.Color(0, 0, 0), p.Color(60, 90, 40), frame_count / 2000)
         screen.fill(current_color)
         p.display.update()
         frame_count += 1
@@ -182,23 +189,28 @@ def endGame(screen, cause_of_death):
     # Create the 'You died' message
     font = p.font.Font(None, WIDTH//5)
     you_died_text = font.render("You died!", True, (255, 255, 255))
-    you_died_rect = you_died_text.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 3))
+    you_died_rect = you_died_text.get_rect(
+        center=(REAL_WIDTH // 2, REAL_HEIGHT // 3))
 
     # Create the 'Cause of death: unknown' text
     font = p.font.Font(None, WIDTH//14)
     cause_of_death_text = font.render("Cause of death:", True, (255, 255, 255))
-    cause_of_death_rect = cause_of_death_text.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 3 + WIDTH // 12 + BORDER * 2))
+    cause_of_death_rect = cause_of_death_text.get_rect(
+        center=(REAL_WIDTH // 2, REAL_HEIGHT // 3 + WIDTH // 12 + BORDER * 2))
     font = p.font.Font(None, WIDTH//10)
     cause_of_death_text_2 = font.render(cause_of_death, True, (255, 90, 90))
-    cause_of_death_rect_2 = cause_of_death_text_2.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 3 + WIDTH // 6.5 + BORDER * 2))
+    cause_of_death_rect_2 = cause_of_death_text_2.get_rect(
+        center=(REAL_WIDTH // 2, REAL_HEIGHT // 3 + WIDTH // 6.5 + BORDER * 2))
 
     # Create the 'Leave' button
-    leave_button = p.Rect(REAL_WIDTH // 2 - 100, REAL_HEIGHT // 2 + 180, 200, 50)
+    leave_button = p.Rect(REAL_WIDTH // 2 - 100,
+                          REAL_HEIGHT // 2 + 180, 200, 50)
     leave_text = font.render("Leave", True, (255, 255, 255))
     leave_rect = leave_text.get_rect(center=leave_button.center)
 
     # Create the 'Try Again' button
-    try_again_button = p.Rect(REAL_WIDTH // 2 - 100, REAL_HEIGHT // 2 + 110, 200, 50)
+    try_again_button = p.Rect(REAL_WIDTH // 2 - 100,
+                              REAL_HEIGHT // 2 + 110, 200, 50)
     try_again_text = font.render("Try Again", True, (255, 255, 255))
     try_again_rect = try_again_text.get_rect(center=try_again_button.center)
 
@@ -229,7 +241,7 @@ def endGame(screen, cause_of_death):
 def survivedGame(screen, score, scores):
     screen.fill((116, 171, 73))
     font = p.font.Font(None, WIDTH // 7)
-    
+
     # Create the 'Your score' message
     font = p.font.Font(None, WIDTH // 8)
     score_label_text = font.render("Score: ", True, (255, 255, 255))
@@ -238,23 +250,28 @@ def survivedGame(screen, score, scores):
     group_width = score_label_text.get_width() + score_value_text.get_width()
     group_left = (REAL_WIDTH - group_width) // 2
     group_top = REAL_HEIGHT // 5 + BORDER
-    score_label_rect = score_label_text.get_rect(topleft=(group_left, group_top))
-    score_value_rect = score_value_text.get_rect(topleft=(score_label_rect.right, group_top))
+    score_label_rect = score_label_text.get_rect(
+        topleft=(group_left, group_top))
+    score_value_rect = score_value_text.get_rect(
+        topleft=(score_label_rect.right, group_top))
 
     # Create the 'Leave' button
-    leave_button = p.Rect(REAL_WIDTH // 2 - 100, REAL_HEIGHT // 2 + 200, 200, 50)
+    leave_button = p.Rect(REAL_WIDTH // 2 - 100,
+                          REAL_HEIGHT // 2 + 200, 200, 50)
     leave_text = font.render("Leave", True, (255, 255, 255))
     leave_rect = leave_text.get_rect(center=leave_button.center)
 
     # Create the 'Try Again' button
-    try_again_button = p.Rect(REAL_WIDTH // 2 - 100, REAL_HEIGHT // 2 + 130, 200, 50)
+    try_again_button = p.Rect(REAL_WIDTH // 2 - 100,
+                              REAL_HEIGHT // 2 + 130, 200, 50)
     try_again_text = font.render("Try Again", True, (255, 255, 255))
     try_again_rect = try_again_text.get_rect(center=try_again_button.center)
 
     # Create the top three winners text
     font = p.font.Font(None, WIDTH // 14)
     top_three_text = font.render("Top Three Winners:", True, (255, 255, 255))
-    top_three_rect = top_three_text.get_rect(center=(REAL_WIDTH // 2, REAL_HEIGHT // 2 - 100))
+    top_three_rect = top_three_text.get_rect(
+        center=(REAL_WIDTH // 2, REAL_HEIGHT // 2 - 100))
 
     # Create the font for displaying scores
     font = p.font.Font(None, WIDTH // 20)
@@ -274,9 +291,9 @@ def survivedGame(screen, score, scores):
     y_offset = REAL_HEIGHT // 2 - 50
     for i, (name, score) in enumerate(sorted_scores[:3]):
         winner_text = font.render(f"{name}: {score}", True, (255, 255, 255))
-        winner_rect = winner_text.get_rect(center=(REAL_WIDTH // 2, y_offset + i * 50))
+        winner_rect = winner_text.get_rect(
+            center=(REAL_WIDTH // 2, y_offset + i * 50))
         screen.blit(winner_text, winner_rect)
-
     p.display.update()
 
     while True:
@@ -301,6 +318,7 @@ def load_scores():
             name, score = line.strip().split(':')
             scores[name] = int(score)
     return scores
+
 def save_scores(scores):
     with open("scores_table.txt", 'w') as file:
         for name, score in scores.items():
@@ -310,16 +328,19 @@ def save_scores(scores):
 def main():
     # Beginning setup
     p.init()
+    p.mixer.init()
+    p.mixer.music.load("./music.mp3")
+    sound_effect_collected = p.mixer.Sound("./collected.mp3")
     global DIMENTIONS
     global SQ_SIZE
     global SPACING
     screen = p.display.set_mode((REAL_WIDTH, REAL_HEIGHT))
     start_time = p.time.get_ticks()
-
     screen.fill((110, 170, 75))
 
     # Variables
-    sq_selected = [0, 0] # Keep track of the last click of the player (row, col)
+    # Keep track of the last click of the player (row, col)
+    sq_selected = [0, 0]
     score_this = 0
     moves_left = int(DIMENTIONS * 1.5)
     levels_passed = 0
@@ -336,34 +357,43 @@ def main():
     except:
         highest_score = 0
     board = emptyBoard()
-    bunny_pos = generateGame(screen, board, levels_passed) # Generates random setting and returns the pos. of the bunny
+    # Generates random setting and returns the pos. of the bunny
+    bunny_pos = generateGame(screen, board, levels_passed)
 
     # Texts initialization
     font = p.font.Font(None, int(BORDER * 1.5))
-    text_score_surface = font.render(player_name + " | Level " + str(levels_passed) + "  |  Score: " + str(score_this), True, (255, 255, 255))
-    screen.blit(text_score_surface, ((REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER))
-    font_small = p.font.Font(None, int(BORDER ))
+    text_score_surface = font.render(player_name + " | Level " + str(
+        levels_passed) + "  |  Score: " + str(score_this), True, (255, 255, 255))
+    screen.blit(text_score_surface,
+                ((REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER))
+    font_small = p.font.Font(None, int(BORDER))
     time_left = 30 - p.time.get_ticks() // 1000
-    text_info_surface = font_small.render("Moves left: " + str(moves_left) + "\nTime: " + str(time_left), True, (255, 255, 255))
-    screen.blit(text_info_surface, ((REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER * 4 + HEIGHT))
+    text_info_surface = font_small.render(
+        "Moves left: " + str(moves_left) + "\nTime: " + str(time_left), True, (255, 255, 255))
+    screen.blit(text_info_surface, ((
+        REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER * 4 + HEIGHT))
 
     # Main game logic
     game_on = True
+    p.mixer.music.play(-1)
     while game_on:
         if moves_left <= 0:
             game_on = endGame(screen, "Ran out of moves")
             if game_on:
-                #Restart the game
+                # Restart the game
                 board = emptyBoard()
                 screen.fill((110, 170, 75))
                 score_this = 0
                 bunny_pos = generateGame(screen, board, levels_passed)
                 moves_left = int(DIMENTIONS * 1.5)
-                screen.blit(text_score_surface, ((REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER))
-                font_small = p.font.Font(None, int(BORDER ))
+                screen.blit(text_score_surface, ((
+                    REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER))
+                font_small = p.font.Font(None, int(BORDER))
                 start_time = p.time.get_ticks()
-                text_info_surface = font_small.render("Moves left: " + str(moves_left) + "\nTime: " + str(time_left), True, (255, 255, 255))
-                screen.blit(text_info_surface, ((REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER * 4 + HEIGHT))
+                text_info_surface = font_small.render(
+                    "Moves left: " + str(moves_left) + "\nTime: " + str(time_left), True, (255, 255, 255))
+                screen.blit(text_info_surface, ((
+                    REAL_WIDTH - text_score_surface.get_width()) // 2, BORDER * 4 + HEIGHT))
             else:
                 break
         elif time_left <= 0:
@@ -383,10 +413,12 @@ def main():
                 sq_selected[1] = (location[0] - BORDER) // SQ_SIZE
                 if (sq_selected[0] > bunny_pos[0] + 1 or sq_selected[0] < bunny_pos[0] - 1) or (sq_selected[1] > bunny_pos[1] + 1 or sq_selected[1] < bunny_pos[1] - 1):  # if can't move there
                     break
-                if ((sq_selected[0] > DIMENTIONS - 1 or sq_selected[0] < 0) or (sq_selected[1] > DIMENTIONS - 1 or sq_selected[1] < 0)): # if it's out of the board
+                # if it's out of the board
+                if ((sq_selected[0] > DIMENTIONS - 1 or sq_selected[0] < 0) or (sq_selected[1] > DIMENTIONS - 1 or sq_selected[1] < 0)):
                     break
                 if sq_selected != bunny_pos:  # if we clicked not on position of the bunny -> move it
-                    if board[sq_selected[0]][sq_selected[1]] == "HM":  # if we are going to the burrow
+                    # if we are going to the burrow
+                    if board[sq_selected[0]][sq_selected[1]] == "HM":
                         levels_passed += 1
                         if levels_passed <= 20:
                             if levels_passed % 5 == 0:
@@ -402,13 +434,16 @@ def main():
                         bunny_pos = generateGame(screen, board, levels_passed)
                         score_this += 1
                         moves_left = int(DIMENTIONS * 1.5)
-                        renderText(screen, font, score_this, text_score_surface, BORDER, levels_passed, player_name)
+                        renderText(screen, font, score_this, text_score_surface,
+                                   BORDER, levels_passed, player_name)
 
                     else:
                         # if we stepped on a carrot
                         if board[sq_selected[0]][sq_selected[1]] == "CR":
                             score_this += 10
-                            renderText(screen, font, score_this, text_score_surface, BORDER, levels_passed, player_name)
+                            sound_effect_collected.play()
+                            renderText(
+                                screen, font, score_this, text_score_surface, BORDER, levels_passed, player_name)
                         # move the bunny
                         board[bunny_pos[0]][bunny_pos[1]] = "--"
                         bunny_pos[0] = sq_selected[0]
@@ -416,13 +451,19 @@ def main():
                         board[sq_selected[0]][sq_selected[1]] = "BN"
                         moves_left -= 1
         # Rendering information below the game. Out of the loop so it can count time smooth
-        screen.fill((110, 170, 75), (0, BORDER * 4 + HEIGHT, REAL_WIDTH, text_info_surface.get_height()))
-        text_info_surface = font_small.render("Moves left: " + str(moves_left), True, (255, 255, 255))
+        screen.fill((110, 170, 75), (0, BORDER * 4 + HEIGHT,
+                    REAL_WIDTH, text_info_surface.get_height()))
+        text_info_surface = font_small.render(
+            "Moves left: " + str(moves_left), True, (255, 255, 255))
         screen.blit(text_info_surface, (BORDER, BORDER * 4 + HEIGHT))
-        text_info_surface = font_small.render("Time: " + str(time_left), True, (255, 255, 255))
-        screen.blit(text_info_surface, (BORDER + WIDTH - text_info_surface.get_width(), BORDER * 4 + HEIGHT))
-        text_info_surface = font_small.render("Highest score: " + str(highest_score), True, (255, 255, 255))
-        screen.blit(text_info_surface, (BORDER + WIDTH // 2 - text_info_surface.get_width() // 2, BORDER * 4 + HEIGHT))
+        text_info_surface = font_small.render(
+            "Time: " + str(time_left), True, (255, 255, 255))
+        screen.blit(text_info_surface, (BORDER + WIDTH -
+                    text_info_surface.get_width(), BORDER * 4 + HEIGHT))
+        text_info_surface = font_small.render(
+            "Highest score: " + str(highest_score), True, (255, 255, 255))
+        screen.blit(text_info_surface, (BORDER + WIDTH // 2 -
+                    text_info_surface.get_width() // 2, BORDER * 4 + HEIGHT))
         drawGameState(screen, board, bunny_pos)
         time_left = 30 - p.time.get_ticks() // 1000
         p.display.flip()
